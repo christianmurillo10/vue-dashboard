@@ -15,20 +15,29 @@
     width="260"
   >
     <v-list>
-      <v-list-tile avatar>
-        <v-list-tile-avatar color="white">
-          <v-img :src="logo" height="34" contain />
-        </v-list-tile-avatar>
-        <v-list-tile-title class="title">Vue Dashboard</v-list-tile-title>
-      </v-list-tile>
+      <v-toolbar flat class="transparent">
+        <v-list class="pa-0">
+          <v-list-tile avatar>
+            <v-list-tile-avatar>
+              <img :src="logo">
+            </v-list-tile-avatar>
+
+            <v-list-tile-content>
+              <v-list-tile-title>Vue Dashboard</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+        </v-list>
+      </v-toolbar>
 
       <v-list two-line subheader>
+        <v-divider></v-divider>
+
         <v-list-tile v-if="responsive">
           <v-text-field class="blue-input search-input" label="Search..." color="blue" />
         </v-list-tile>
       </v-list>
 
-      <v-list dense>
+      <v-list class="pt-0" dense>
         <v-list-tile 
           v-for="(link, i) in links"
           :key="i"
