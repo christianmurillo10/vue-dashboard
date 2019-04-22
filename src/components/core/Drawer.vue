@@ -68,9 +68,9 @@ export default {
         text: 'Dashboard'
       },
       {
-        to: '/other',
-        icon: 'dashboard',
-        text: 'Other'
+        to: '/users',
+        icon: 'person',
+        text: 'Users'
       }
     ],
     responsive: true

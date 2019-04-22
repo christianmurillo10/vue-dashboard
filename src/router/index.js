@@ -1,8 +1,9 @@
 import Vue from "vue";
 import Router from "vue-router";
 import ErrorPage from '../views/Error'
-import Dashboard from "../views/Dashboard";
 import Login from "../views/Login";
+import Dashboard from "../views/Dashboard";
+import Users from "../views/users/Index";
 
 Vue.use(Router);
 
@@ -11,14 +12,9 @@ let router = new Router({
   base: process.env.BASE_URL,
   routes: [
     {
-      path: "/",
-      name: "dashboard",
-      component: Dashboard
-    },
-    {
-      path: "/",
-      name: "others",
-      component: Dashboard
+      path: '*',
+      name: 'error',
+      component: ErrorPage
     },
     {
       path: "/login",
@@ -26,9 +22,14 @@ let router = new Router({
       component: Login
     },
     {
-      path: '*',
-      name: 'error',
-      component: ErrorPage
+      path: "/",
+      name: "dashboard",
+      component: Dashboard
+    },
+    {
+      path: "/users",
+      name: "users",
+      component: Users
     }
   ]
 })
