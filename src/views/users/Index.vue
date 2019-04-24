@@ -27,7 +27,7 @@
                   <v-text-field v-model="editedItem.email" label="Email"></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm12 md12>
-                  <v-text-field v-model="editedItem.positionId" label="Position"></v-text-field>
+                  <v-text-field v-model="editedItem.position_id" label="Position"></v-text-field>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -50,7 +50,7 @@
         <td class="text-xs-left">{{ props.item.username }}</td>
         <td class="text-xs-left">{{ props.item.password }}</td>
         <td class="text-xs-left">{{ props.item.email }}</td>
-        <td class="text-xs-left">{{ props.item.positionId }}</td>
+        <td class="text-xs-left">{{ props.item.position_id }}</td>
         <td class="justify-center layout px-0">
           <v-icon
             small
@@ -82,7 +82,7 @@
         { text: 'Username',value: 'username' },
         { text: 'Password', value: 'password' },
         { text: 'Email', value: 'email' },
-        { text: 'Position', value: 'positionId' },
+        { text: 'Position', value: 'position_id' },
         { text: 'Actions', align: 'center', value: 'name', sortable: false }
       ],
       itemList: [],
@@ -91,13 +91,13 @@
         username: '',
         password: '',
         email: '',
-        positionId: null
+        position_id: null
       },
       defaultItem: {
         username: '',
         password: '',
         email: '',
-        positionId: null
+        position_id: null
       }
     }),
 
@@ -119,68 +119,12 @@
 
     methods: {
       initialize () {
-        this.itemList = [
-          {
-            username: 'User 1',
-            password: 'user1',
-            email: 'user1@mail.com',
-            positionId: 1,
-          },
-          {
-            username: 'User 2',
-            password: 'user2',
-            email: 'user2@mail.com',
-            positionId: 1,
-          },
-          {
-            username: 'User 3',
-            password: 'user3',
-            email: 'user3@mail.com',
-            positionId: 1,
-          },
-          {
-            username: 'User 4',
-            password: 'user4',
-            email: 'user4@mail.com',
-            positionId: 1,
-          },
-          {
-            username: 'User 5',
-            password: 'user5',
-            email: 'user5@mail.com',
-            positionId: 1,
-          },
-          {
-            username: 'User 6',
-            password: 'user6',
-            email: 'user6@mail.com',
-            positionId: 1,
-          },
-          {
-            username: 'User 7',
-            password: 'user7',
-            email: 'user7@mail.com',
-            positionId: 1,
-          },
-          {
-            username: 'User 8',
-            password: 'user8',
-            email: 'user8@mail.com',
-            positionId: 1,
-          },
-          {
-            username: 'User 9',
-            password: 'user9',
-            email: 'user9@mail.com',
-            positionId: 1,
-          },
-          {
-            username: 'User 10',
-            password: 'user10',
-            email: 'user10@mail.com',
-            positionId: 1,
-          }
-        ]
+        this.$store
+          .dispatch("users/getData", '')
+          .then(response => {
+            this.itemList = response.data.result
+          })
+          .catch(err => console.log(err));
       },
 
       editItem (item) {

@@ -1,8 +1,6 @@
 const state = {
-  socketUrl: null,
   apiUrl: null,
-  dashboard: "dashboard",
-  data: []
+  dashboard: "dashboard"
 };
 
 const getters = {};
