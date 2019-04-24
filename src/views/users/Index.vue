@@ -1,5 +1,14 @@
 <template>
   <div>
+    <v-alert
+      v-model="alertDetails.alert"
+      dismissible
+      :type="alertDetails.type"
+      outline
+    >
+      {{ alertDetails.message }}
+    </v-alert>
+    <v-divider></v-divider>
     <v-toolbar dense>
       <v-toolbar-title>Users</v-toolbar-title>
       <v-spacer></v-spacer>
@@ -62,6 +71,11 @@
 <script>
 export default {
   data: () => ({
+    alertDetails: {
+      alert: false,
+      type: "",
+      message: ""
+    },
     dialog: false,
     headers: [
       { text: "Username", value: "username" },
@@ -127,6 +141,12 @@ export default {
           .dispatch("users/deleteData", data)
           .then(response => {
             this.itemList.splice(index, 1);
+            let obj = {
+              alert: true,
+              type: "success",
+              message: "User successfully deleted."
+            }
+            this.alertDetails = obj;
             console.log(response);
           })
           .catch(err => console.log(err));
@@ -145,6 +165,12 @@ export default {
         this.$store
           .dispatch("users/updateData", this.editedItem)
           .then(response => {
+            let obj = {
+              alert: true,
+              type: "success",
+              message: "User successfully updated."
+            }
+            this.alertDetails = obj;
             console.log(response);
           })
           .catch(err => console.log(err));
@@ -153,6 +179,12 @@ export default {
         this.$store
           .dispatch("users/saveData", this.editedItem)
           .then(response => {
+            let obj = {
+              alert: true,
+              type: "success",
+              message: "User successfully created."
+            }
+            this.alertDetails = obj;
             console.log(response);
           })
           .catch(err => console.log(err));
