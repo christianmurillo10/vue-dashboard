@@ -120,8 +120,16 @@ export default {
 
     deleteItem(item) {
       const index = this.itemList.indexOf(item);
+      const data = Object.assign({}, item);
+
       confirm("Are you sure you want to delete this item?") &&
-        this.itemList.splice(index, 1);
+        this.$store
+          .dispatch("users/deleteData", data)
+          .then(response => {
+            this.itemList.splice(index, 1);
+            console.log(response);
+          })
+          .catch(err => console.log(err));
     },
 
     close() {
@@ -134,8 +142,20 @@ export default {
 
     save() {
       if (this.editedIndex > -1) {
+        this.$store
+          .dispatch("users/updateData", this.editedItem)
+          .then(response => {
+            console.log(response);
+          })
+          .catch(err => console.log(err));
         Object.assign(this.itemList[this.editedIndex], this.editedItem);
       } else {
+        this.$store
+          .dispatch("users/saveData", this.editedItem)
+          .then(response => {
+            console.log(response);
+          })
+          .catch(err => console.log(err));
         this.itemList.push(this.editedItem);
       }
       this.close();

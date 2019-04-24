@@ -42,11 +42,11 @@
 import { mapState } from "vuex";
 
 export default {
-  data () {
+  data() {
     return {
       username: "superadmin",
       password: "@dmin2019"
-    }
+    };
   },
   methods: {
     login() {
