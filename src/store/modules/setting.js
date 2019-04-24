@@ -1,6 +1,8 @@
+
+import configuration from '../../../public/config/configuration'
+
 const state = {
-  apiUrl: null,
-  dashboard: "dashboard"
+  apiUrl: configuration.apiUrl
 };
 
 const getters = {};
@@ -8,12 +10,9 @@ const getters = {};
 const actions = {};
 
 const mutations = {
-  setUrlData(state, payload) {
-    state.apiUrl = payload.apiUrl;
-  },
-  setDashboardData(state, payload) {
-    state.dashboard = payload;
-  }
+  // setUrlData(state, payload) {
+  //   state.apiUrl = payload.apiUrl;
+  // }
 };
 
 export default {

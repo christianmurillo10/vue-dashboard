@@ -7,20 +7,20 @@ import router from "@/router";
 import store from "@/store";
 import Axios from "axios";
 
-let configJson = fetch("/config/configuration.json").then(resp => {
-  return resp.json();
-});
+// let configJson = fetch("/config/configuration.json").then(resp => {
+//   return resp.json();
+// });
 
-const requests = [configJson];
+// const requests = [configJson];
 
-Promise.all(requests)
-  .then(results => {
-    let urlData = results[0];
-    store.commit("setting/setUrlData", urlData);
-  })
-  .catch(err => {
-    console.log(err + " error in configuration.json");
-  });
+// Promise.all(requests)
+//   .then(results => {
+//     let urlData = results[0];
+//     store.commit("setting/setUrlData", urlData);
+//   })
+//   .catch(err => {
+//     console.log(err + " error in configuration.json");
+//   });
 
 sync(store, router);
 
