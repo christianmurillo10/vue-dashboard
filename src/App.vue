@@ -1,29 +1,28 @@
 <template>
   <v-app>
     <template v-if="isLoggedIn">
-      <core-toolbar />
-      <core-drawer />
-      <core-view />
-      <core-footer />
+      <core-toolbar/>
+      <core-drawer/>
+      <core-view/>
+      <core-footer/>
     </template>
     <template v-else>
-      <login />
+      <login/>
     </template>
   </v-app>
 </template>
 
 <script>
-import Login from "./views/Login"
-import { mapGetters } from "vuex"
+import Login from "./views/Login";
+import { mapGetters } from "vuex";
 
 export default {
-  data: () => ({
-  }),
+  data: () => ({}),
   components: {
     Login
   },
-  computed : {
-    ...mapGetters('userAuthentication',["isLoggedIn"])
+  computed: {
+    ...mapGetters("userAuthentication", ["isLoggedIn"])
   }
 };
 </script>

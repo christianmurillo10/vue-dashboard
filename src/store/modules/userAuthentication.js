@@ -24,9 +24,9 @@ const actions = {
     };
     axios
       .post(url, data, config)
-      .then(results => {
-        let message = results.data.message;
-        let result = results.data.result;
+      .then(response => {
+        let message = response.data.message;
+        let result = response.data.result;
         let token = result.token;
 
         if (result !== false) {

@@ -41,30 +41,15 @@
         </v-card>
       </v-dialog>
     </v-toolbar>
-    <v-data-table
-      :headers="headers"
-      :items="itemList"
-      class="elevation-1"
-    >
+    <v-data-table :headers="headers" :items="itemList" class="elevation-1">
       <template v-slot:items="props">
         <td class="text-xs-left">{{ props.item.username }}</td>
         <td class="text-xs-left">{{ props.item.password }}</td>
         <td class="text-xs-left">{{ props.item.email }}</td>
         <td class="text-xs-left">{{ props.item.position_id }}</td>
         <td class="justify-center layout px-0">
-          <v-icon
-            small
-            class="mr-2"
-            @click="editItem(props.item)"
-          >
-            edit
-          </v-icon>
-          <v-icon
-            small
-            @click="deleteItem(props.item)"
-          >
-            delete
-          </v-icon>
+          <v-icon small class="mr-2" @click="editItem(props.item)">edit</v-icon>
+          <v-icon small @click="deleteItem(props.item)">delete</v-icon>
         </td>
       </template>
       <template v-slot:no-data>
@@ -75,85 +60,86 @@
 </template>
 
 <script>
-  export default {
-    data: () => ({
-      dialog: false,
-      headers: [
-        { text: 'Username',value: 'username' },
-        { text: 'Password', value: 'password' },
-        { text: 'Email', value: 'email' },
-        { text: 'Position', value: 'position_id' },
-        { text: 'Actions', align: 'center', value: 'name', sortable: false }
-      ],
-      itemList: [],
-      editedIndex: -1,
-      editedItem: {
-        username: '',
-        password: '',
-        email: '',
-        position_id: null
-      },
-      defaultItem: {
-        username: '',
-        password: '',
-        email: '',
-        position_id: null
-      }
-    }),
+export default {
+  data: () => ({
+    dialog: false,
+    headers: [
+      { text: "Username", value: "username" },
+      { text: "Password", value: "password" },
+      { text: "Email", value: "email" },
+      { text: "Position", value: "position_id" },
+      { text: "Actions", align: "center", value: "name", sortable: false }
+    ],
+    itemList: [],
+    editedIndex: -1,
+    editedItem: {
+      username: "",
+      password: "",
+      email: "",
+      position_id: null
+    },
+    defaultItem: {
+      username: "",
+      password: "",
+      email: "",
+      position_id: null
+    }
+  }),
 
-    computed: {
-      formTitle () {
-        return this.editedIndex === -1 ? 'New User' : 'Edit User'
-      }
+  computed: {
+    formTitle() {
+      return this.editedIndex === -1 ? "New User" : "Edit User";
+    }
+  },
+
+  watch: {
+    dialog(val) {
+      val || this.close();
+    }
+  },
+
+  created() {
+    this.initialize();
+  },
+
+  methods: {
+    initialize() {
+      this.$store
+        .dispatch("users/getData", "")
+        .then(response => {
+          this.itemList = response.data.result;
+        })
+        .catch(err => console.log(err));
     },
 
-    watch: {
-      dialog (val) {
-        val || this.close()
-      }
+    editItem(item) {
+      this.editedIndex = this.itemList.indexOf(item);
+      this.editedItem = Object.assign({}, item);
+      this.dialog = true;
     },
 
-    created () {
-      this.initialize()
+    deleteItem(item) {
+      const index = this.itemList.indexOf(item);
+      confirm("Are you sure you want to delete this item?") &&
+        this.itemList.splice(index, 1);
     },
 
-    methods: {
-      initialize () {
-        this.$store
-          .dispatch("users/getData", '')
-          .then(response => {
-            this.itemList = response.data.result
-          })
-          .catch(err => console.log(err));
-      },
+    close() {
+      this.dialog = false;
+      setTimeout(() => {
+        this.editedItem = Object.assign({}, this.defaultItem);
+        this.editedIndex = -1;
+      }, 300);
+    },
 
-      editItem (item) {
-        this.editedIndex = this.itemList.indexOf(item)
-        this.editedItem = Object.assign({}, item)
-        this.dialog = true
-      },
-
-      deleteItem (item) {
-        const index = this.itemList.indexOf(item)
-        confirm('Are you sure you want to delete this item?') && this.itemList.splice(index, 1)
-      },
-
-      close () {
-        this.dialog = false
-        setTimeout(() => {
-          this.editedItem = Object.assign({}, this.defaultItem)
-          this.editedIndex = -1
-        }, 300)
-      },
-
-      save () {
-        if (this.editedIndex > -1) {
-          Object.assign(this.itemList[this.editedIndex], this.editedItem)
-        } else {
-          this.itemList.push(this.editedItem)
-        }
-        this.close()
+    save() {
+      if (this.editedIndex > -1) {
+        Object.assign(this.itemList[this.editedIndex], this.editedItem);
+      } else {
+        this.itemList.push(this.editedItem);
       }
+      this.close();
     }
   }
+};
 </script>
