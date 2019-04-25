@@ -23,45 +23,64 @@
             <span>{{ formTitle }}</span>
           </v-card-title>
 
-          <v-card-text>
-            <v-container grid-list-md>
-              <v-layout wrap>
-                <v-flex xs12 sm12 md12>
-                  <v-text-field v-model="editedItem.username" label="Username"></v-text-field>
-                </v-flex>
-                <v-flex xs12 sm12 md12>
-                  <v-text-field
-                    v-model="editedItem.password" 
-                    :append-icon="showPassword ? 'visibility' : 'visibility_off'"
-                    :type="showPassword ? 'text' : 'password'"
-                    label="Password"
-                    @click:append="showPassword = !showPassword"
-                  ></v-text-field>
-                </v-flex>
-                <v-flex xs12 sm12 md12>
-                  <v-text-field v-model="editedItem.email" label="Email"></v-text-field>
-                </v-flex>
-                <v-flex xs12 sm12 md12>
-                  <v-select
-                    :items="positionList"
-                    item-value="id"
-                    item-text="name"
-                    v-model="editedItem.position_id"
-                    label="Position"
-                    required
-                  ></v-select>
-                </v-flex>
-              </v-layout>
-            </v-container>
-          </v-card-text>
-          
-          <v-divider></v-divider>
+          <v-form
+            ref="form"
+            v-model="valid"
+            lazy-validation
+          >
+            <v-card-text>
+              <v-container grid-list-md>
+                <v-layout wrap>
+                  <v-flex xs12 sm12 md12>
+                    <v-text-field 
+                      v-model="editedItem.username" 
+                      :rules="validateItem.usernameRules"
+                      label="Username" 
+                      required
+                    ></v-text-field>
+                  </v-flex>
+                  <v-flex xs12 sm12 md12>
+                    <v-text-field
+                      v-model="editedItem.password" 
+                      :append-icon="showPassword ? 'visibility' : 'visibility_off'"
+                      :type="showPassword ? 'text' : 'password'"
+                      :rules="validateItem.passwordRules"
+                      label="Password"
+                      @click:append="showPassword = !showPassword"
+                      required
+                    ></v-text-field>
+                  </v-flex>
+                  <v-flex xs12 sm12 md12>
+                    <v-text-field 
+                      v-model="editedItem.email" 
+                      :rules="validateItem.emailRules"
+                      label="Email"
+                      required
+                    ></v-text-field>
+                  </v-flex>
+                  <v-flex xs12 sm12 md12>
+                    <v-select
+                      :items="positionList"
+                      item-value="id"
+                      item-text="name"
+                      v-model="editedItem.position_id"
+                      :rules="validateItem.positionRules"
+                      label="Position"
+                      required
+                    ></v-select>
+                  </v-flex>
+                </v-layout>
+              </v-container>
+            </v-card-text>
+            
+            <v-divider></v-divider>
 
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" flat @click="close">Cancel</v-btn>
-            <v-btn color="blue darken-1" flat @click="save">Save</v-btn>
-          </v-card-actions>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="blue darken-1" flat @click="close">Cancel</v-btn>
+              <v-btn color="blue darken-1" flat :disabled="!valid" @click="save">Save</v-btn>
+            </v-card-actions>
+          </v-form>
         </v-card>
       </v-dialog>
     </v-toolbar>
@@ -86,7 +105,6 @@
 <script>
 export default {
   data: () => ({
-    showPassword: false,
     dialog: false,
     alertDetails: {
       alert: false,
@@ -101,7 +119,6 @@ export default {
       { text: "Actions", align: "center", value: "name", sortable: false }
     ],
     itemList: [],
-    positionList: [],
     editedIndex: -1,
     editedItem: {
       username: "",
@@ -114,7 +131,27 @@ export default {
       password: "",
       email: "",
       position_id: null
-    }
+    },
+    valid: true,
+    validateItem: {
+      usernameRules: [
+        v => !!v || 'Username is required',
+        v => (v && v.length <= 50) || 'Username must be less than 50 characters'
+      ],
+      passwordRules: [
+        v => !!v || 'Password is required',
+        v => (v && v.length <= 50) || 'Password must be less than 50 characters'
+      ],
+      emailRules: [
+        v => !!v || 'Email is required',
+        v => /.+@.+/.test(v) || 'Email must be valid'
+      ],
+      positionRules: [
+        v => !!v || 'Position is required'
+      ],
+    },
+    showPassword: false,
+    positionList: []
   }),
 
   computed: {
@@ -189,34 +226,36 @@ export default {
     },
 
     save() {
-      if (this.editedIndex > -1) {
-        this.$store
-          .dispatch("users/updateData", this.editedItem)
-          .then(response => {
-            let obj = {
-              alert: true,
-              type: "success",
-              message: "User successfully updated."
-            }
-            this.alertDetails = obj;
-          })
-          .catch(err => console.log(err));
-        Object.assign(this.itemList[this.editedIndex], this.editedItem);
-      } else {
-        this.$store
-          .dispatch("users/saveData", this.editedItem)
-          .then(response => {
-            let obj = {
-              alert: true,
-              type: "success",
-              message: "User successfully created."
-            }
-            this.alertDetails = obj;
-          })
-          .catch(err => console.log(err));
-        this.itemList.push(this.editedItem);
+      if (this.$refs.form.validate()) {
+        if (this.editedIndex > -1) {
+          this.$store
+            .dispatch("users/updateData", this.editedItem)
+            .then(response => {
+              let obj = {
+                alert: true,
+                type: "success",
+                message: "User successfully updated."
+              }
+              this.alertDetails = obj;
+            })
+            .catch(err => console.log(err));
+          Object.assign(this.itemList[this.editedIndex], this.editedItem);
+        } else {
+          this.$store
+            .dispatch("users/saveData", this.editedItem)
+            .then(response => {
+              let obj = {
+                alert: true,
+                type: "success",
+                message: "User successfully created."
+              }
+              this.alertDetails = obj;
+            })
+            .catch(err => console.log(err));
+          this.itemList.push(this.editedItem);
+        }
+        this.close();
       }
-      this.close();
     }
   }
 };
