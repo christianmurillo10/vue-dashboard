@@ -32,7 +32,7 @@
                 <v-flex xs12 sm12 md12>
                   <v-text-field
                     v-model="editedItem.password" 
-                    :append-icon="show1 ? 'visibility' : 'visibility_off'"
+                    :append-icon="showPassword ? 'visibility' : 'visibility_off'"
                     :type="showPassword ? 'text' : 'password'"
                     label="Password"
                     @click:append="showPassword = !showPassword"
