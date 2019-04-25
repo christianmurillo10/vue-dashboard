@@ -6,6 +6,7 @@ import toolbar from './modules/toolbar'
 import userAuthentication from './modules/userAuthentication'
 import setting from './modules/setting'
 import users from './modules/users'
+import positions from './modules/positions'
 
 Vue.use(Vuex);
 
@@ -18,6 +19,7 @@ export default new Vuex.Store({
     toolbar,
     userAuthentication,
     setting,
-    users
+    users,
+    positions
   }
 });

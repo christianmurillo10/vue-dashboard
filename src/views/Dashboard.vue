@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <!-- <div>
     <v-alert
       :value="true"
       type="success"
@@ -27,5 +27,5 @@
     >
       This is a error alert.
     </v-alert>
-  </div>
+  </div> -->
 </template>

@@ -9,7 +9,7 @@ const actions = {
     { dispatch, commit, state, rootState, getters, rootGetters },
     payload
   ) {
-    let url = `${rootState.setting.apiUrl}/api/user/list`;
+    let url = `${rootState.setting.apiUrl}/api/position/list`;
     return new Promise((resolve, reject) => {
       try {
         axios
@@ -30,28 +30,24 @@ const actions = {
     { dispatch, commit, state, rootState, getters, rootGetters },
     payload
   ) {
-    let url = `${rootState.setting.apiUrl}/api/user/create`;
+    let url = `${rootState.setting.apiUrl}/api/position/create`;
     return new Promise((resolve, reject) => {
       try {
         let obj = {
           data: {
-            email: payload.email,
-            username: payload.username,
-            password: payload.password,
-            position_id: payload.position_id
+            name: payload.name
           }
         };
-        console.log(obj)
 
-        // axios
-        //   .post(url, obj, {
-        //     headers: {
-        //       Authorization: "Bearer " + localStorage.getItem("token")
-        //     }
-        //   })
-        //   .then(response => {
-        //     resolve(response);
-        //   });
+        axios
+          .post(url, obj, {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("token")
+            }
+          })
+          .then(response => {
+            resolve(response);
+          });
       } catch (err) {
         reject(err);
       }
@@ -61,15 +57,13 @@ const actions = {
     { dispatch, commit, state, rootState, getters, rootGetters },
     payload
   ) {
-    let url = `${rootState.setting.apiUrl}/api/user/update`;
+    let url = `${rootState.setting.apiUrl}/api/position/update`;
     return new Promise((resolve, reject) => {
       try {
         let obj = {
           id: payload.id,
           data: {
-            username: payload.username,
-            email: payload.email,
-            position_id: payload.position_id
+            name: payload.name
           }
         };
 
@@ -91,7 +85,7 @@ const actions = {
     { dispatch, commit, state, rootState, getters, rootGetters },
     payload
   ) {
-    let url = `${rootState.setting.apiUrl}/api/user/delete`;
+    let url = `${rootState.setting.apiUrl}/api/position/delete`;
     return new Promise((resolve, reject) => {
       try {
         let obj = {

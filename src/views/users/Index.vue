@@ -2,8 +2,8 @@
   <div>
     <v-alert
       v-model="alertDetails.alert"
-      dismissible
       :type="alertDetails.type"
+      dismissible
       outline
     >
       {{ alertDetails.message }}
@@ -30,13 +30,26 @@
                   <v-text-field v-model="editedItem.username" label="Username"></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm12 md12>
-                  <v-text-field v-model="editedItem.password" label="Password"></v-text-field>
+                  <v-text-field
+                    v-model="editedItem.password" 
+                    :append-icon="show1 ? 'visibility' : 'visibility_off'"
+                    :type="showPassword ? 'text' : 'password'"
+                    label="Password"
+                    @click:append="showPassword = !showPassword"
+                  ></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm12 md12>
                   <v-text-field v-model="editedItem.email" label="Email"></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm12 md12>
-                  <v-text-field v-model="editedItem.position_id" label="Position"></v-text-field>
+                  <v-select
+                    :items="positionList"
+                    item-value="id"
+                    item-text="name"
+                    v-model="editedItem.position_id"
+                    label="Position"
+                    required
+                  ></v-select>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -71,12 +84,13 @@
 <script>
 export default {
   data: () => ({
+    showPassword: false,
+    dialog: false,
     alertDetails: {
       alert: false,
-      type: "",
+      type: "success",
       message: ""
     },
-    dialog: false,
     headers: [
       { text: "Username", value: "username" },
       { text: "Password", value: "password" },
@@ -85,6 +99,7 @@ export default {
       { text: "Actions", align: "center", value: "name", sortable: false }
     ],
     itemList: [],
+    positionList: [],
     editedIndex: -1,
     editedItem: {
       username: "",
@@ -112,7 +127,7 @@ export default {
     }
   },
 
-  created() {
+  mounted() {
     this.initialize();
   },
 
@@ -122,6 +137,18 @@ export default {
         .dispatch("users/getData", "")
         .then(response => {
           this.itemList = response.data.result;
+        })
+        .catch(err => console.log(err));
+      this.$store
+        .dispatch("positions/getData", "")
+        .then(response => {
+          response.data.result.forEach(element => {
+            let data = {
+              id: element.id,
+              name: element.name
+            }
+            this.positionList.push(data)
+          });
         })
         .catch(err => console.log(err));
     },
@@ -147,7 +174,6 @@ export default {
               message: "User successfully deleted."
             }
             this.alertDetails = obj;
-            console.log(response);
           })
           .catch(err => console.log(err));
     },
@@ -171,7 +197,6 @@ export default {
               message: "User successfully updated."
             }
             this.alertDetails = obj;
-            console.log(response);
           })
           .catch(err => console.log(err));
         Object.assign(this.itemList[this.editedIndex], this.editedItem);
@@ -185,7 +210,6 @@ export default {
               message: "User successfully created."
             }
             this.alertDetails = obj;
-            console.log(response);
           })
           .catch(err => console.log(err));
         this.itemList.push(this.editedItem);
