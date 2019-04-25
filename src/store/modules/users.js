@@ -41,17 +41,16 @@ const actions = {
             position_id: payload.position_id
           }
         };
-        console.log(obj)
-
-        // axios
-        //   .post(url, obj, {
-        //     headers: {
-        //       Authorization: "Bearer " + localStorage.getItem("token")
-        //     }
-        //   })
-        //   .then(response => {
-        //     resolve(response);
-        //   });
+        
+        axios
+          .post(url, obj, {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("token")
+            }
+          })
+          .then(response => {
+            resolve(response);
+          });
       } catch (err) {
         reject(err);
       }

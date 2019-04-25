@@ -39,7 +39,7 @@
                       required
                     ></v-text-field>
                   </v-flex>
-                  <v-flex xs12 sm12 md12>
+                  <v-flex xs12 sm12 md12 v-if="this.editedIndex === -1">
                     <v-text-field
                       v-model="editedItem.password" 
                       :append-icon="showPassword ? 'visibility' : 'visibility_off'"
@@ -231,12 +231,21 @@ export default {
           this.$store
             .dispatch("users/updateData", this.editedItem)
             .then(response => {
-              let obj = {
-                alert: true,
-                type: "success",
-                message: "User successfully updated."
+              if (response.data.status == 1) {
+                let obj = {
+                  alert: true,
+                  type: "warning",
+                  message: "No data changed."
+                }
+                this.alertDetails = obj;
+              } else {
+                let obj = {
+                  alert: true,
+                  type: "success",
+                  message: "User successfully updated."
+                }
+                this.alertDetails = obj;
               }
-              this.alertDetails = obj;
             })
             .catch(err => console.log(err));
           Object.assign(this.itemList[this.editedIndex], this.editedItem);
