@@ -19,8 +19,8 @@
           </v-btn>
         </template>
         <v-card>
-          <v-card-title>
-            <span class="headline">{{ formTitle }}</span>
+          <v-card-title class="headline grey darken-3 white--text">
+            <span>{{ formTitle }}</span>
           </v-card-title>
 
           <v-card-text>
@@ -54,6 +54,8 @@
               </v-layout>
             </v-container>
           </v-card-text>
+          
+          <v-divider></v-divider>
 
           <v-card-actions>
             <v-spacer></v-spacer>
