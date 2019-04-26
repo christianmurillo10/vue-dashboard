@@ -87,7 +87,6 @@
     <v-data-table :headers="headers" :items="itemList" class="elevation-1">
       <template v-slot:items="props">
         <td class="text-xs-left">{{ props.item.username }}</td>
-        <td class="text-xs-left">{{ props.item.password }}</td>
         <td class="text-xs-left">{{ props.item.email }}</td>
         <td class="text-xs-left">{{ props.item.position_name }}</td>
         <td class="justify-center layout px-0">
@@ -96,7 +95,7 @@
         </td>
       </template>
       <template v-slot:no-data>
-        <v-btn color="primary" @click="initialize">Reset</v-btn>
+        <v-span class="justify-center layout px-0">No data found!</v-span>
       </template>
     </v-data-table>
   </div>
@@ -113,7 +112,6 @@ export default {
     },
     headers: [
       { text: "Username", value: "username" },
-      { text: "Password", value: "password" },
       { text: "Email", value: "email" },
       { text: "Position", value: "position_id" },
       { text: "Actions", align: "center", value: "name", sortable: false }
