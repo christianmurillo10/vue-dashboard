@@ -10,7 +10,7 @@
     </v-alert>
     <v-divider></v-divider>
     <v-toolbar dense>
-      <v-toolbar-title>Positions</v-toolbar-title>
+      <v-toolbar-title><v-icon class="black--text">person_pin</v-icon> Positions</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-dialog v-model="dialog" max-width="500px">
         <template v-slot:activator="{ on }">
