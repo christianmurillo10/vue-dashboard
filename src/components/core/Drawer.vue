@@ -74,7 +74,7 @@ export default {
       },
       {
         to: '/positions',
-        icon: 'person',
+        icon: 'person_pin',
         text: 'Positions'
       }
     ],
