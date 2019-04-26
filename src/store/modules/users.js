@@ -26,6 +26,27 @@ const actions = {
       }
     });
   },
+  getDataById(
+    { dispatch, commit, state, rootState, getters, rootGetters },
+    payload
+  ) {
+    let url = `${rootState.setting.apiUrl}/api/user/list?id=${payload.id}`;
+    return new Promise((resolve, reject) => {
+      try {
+        axios
+          .get(url, {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("token")
+            }
+          })
+          .then(response => {
+            resolve(response);
+          });
+      } catch (err) {
+        reject(err);
+      }
+    });
+  },
   saveData(
     { dispatch, commit, state, rootState, getters, rootGetters },
     payload
