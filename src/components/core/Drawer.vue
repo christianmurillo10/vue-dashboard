@@ -71,6 +71,11 @@ export default {
         to: '/users',
         icon: 'person',
         text: 'Users'
+      },
+      {
+        to: '/positions',
+        icon: 'person',
+        text: 'Positions'
       }
     ],
     responsive: true

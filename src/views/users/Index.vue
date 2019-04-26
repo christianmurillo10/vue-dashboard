@@ -20,7 +20,7 @@
         </template>
         <v-card>
           <v-card-title class="headline grey darken-3 white--text">
-            <span>{{ formTitle }}</span>
+            <span><v-icon class="white--text">{{ formIcon }}</v-icon> {{ formTitle }}</span>
           </v-card-title>
 
           <v-form
@@ -155,6 +155,9 @@ export default {
   computed: {
     formTitle() {
       return this.editedIndex === -1 ? "New User" : "Edit User";
+    },
+    formIcon() {
+      return this.editedIndex === -1 ? "person_add" : "edit";
     }
   },
 

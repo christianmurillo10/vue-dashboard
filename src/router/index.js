@@ -4,6 +4,7 @@ import ErrorPage from '../views/Error'
 import Login from "../views/Login";
 import Dashboard from "../views/Dashboard";
 import Users from "../views/users/Index";
+import Positions from "../views/positions/Index";
 
 Vue.use(Router);
 
@@ -30,6 +31,11 @@ let router = new Router({
       path: "/users",
       name: "users",
       component: Users
+    },
+    {
+      path: "/positions",
+      name: "positions",
+      component: Positions
     }
   ]
 })
