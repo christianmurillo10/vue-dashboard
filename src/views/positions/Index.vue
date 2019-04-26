@@ -9,13 +9,13 @@
       {{ alertDetails.message }}
     </v-alert>
     <v-divider></v-divider>
-    <v-toolbar dense>
+    <v-toolbar color="#EEEEEE" dense>
       <v-toolbar-title><v-icon class="black--text">person_pin</v-icon> Positions</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-dialog v-model="dialog" max-width="500px">
         <template v-slot:activator="{ on }">
           <v-btn icon v-on="on">
-            <v-icon>person_add</v-icon>
+            <v-icon>add_box</v-icon>
           </v-btn>
         </template>
         <v-card>
@@ -104,7 +104,7 @@ export default {
       return this.editedIndex === -1 ? "New Position" : "Edit Position";
     },
     formIcon() {
-      return this.editedIndex === -1 ? "person_add" : "edit";
+      return this.editedIndex === -1 ? "add_box" : "edit";
     }
   },
 

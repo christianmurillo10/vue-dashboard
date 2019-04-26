@@ -9,7 +9,7 @@
       {{ alertDetails.message }}
     </v-alert>
     <v-divider></v-divider>
-    <v-toolbar dense>
+    <v-toolbar color="#EEEEEE" dense>
       <v-toolbar-title><v-icon class="black--text">person</v-icon> Users</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-dialog v-model="dialog" max-width="500px">
