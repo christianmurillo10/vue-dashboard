@@ -183,22 +183,13 @@ export default {
           this.$store
             .dispatch("roles/updateData", this.editedItem)
             .then(response => {
-              if (response.data.status == 1) {
-                let obj = {
-                  alert: true,
-                  type: "warning",
-                  message: "No data changed."
-                }
-                this.alertDetails = obj;
-              } else {
-                let obj = {
-                  alert: true,
-                  type: "success",
-                  message: "Role successfully updated."
-                }
-                this.alertDetails = obj;
-                Object.assign(this.itemList[this.editedIndex], this.editedItem);
+              let obj = {
+                alert: true,
+                type: "success",
+                message: "Role successfully updated."
               }
+              this.alertDetails = obj;
+              Object.assign(this.itemList[this.editedIndex], this.editedItem);
             })
             .catch(err => console.log(err));
         } else {
