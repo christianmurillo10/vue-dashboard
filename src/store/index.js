@@ -7,6 +7,7 @@ import userAuthentication from './modules/userAuthentication'
 import setting from './modules/setting'
 import users from './modules/users'
 import positions from './modules/positions'
+import roles from './modules/roles'
 
 Vue.use(Vuex);
 
@@ -20,6 +21,7 @@ export default new Vuex.Store({
     userAuthentication,
     setting,
     users,
-    positions
+    positions,
+    roles
   }
 });

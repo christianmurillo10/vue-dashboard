@@ -5,6 +5,7 @@ import Login from "../views/Login";
 import Dashboard from "../views/Dashboard";
 import Users from "../views/users/Index";
 import Positions from "../views/positions/Index";
+import Roles from "../views/roles/Index";
 
 Vue.use(Router);
 
@@ -36,6 +37,11 @@ let router = new Router({
       path: "/positions",
       name: "positions",
       component: Positions
+    },
+    {
+      path: "/roles",
+      name: "roles",
+      component: Roles
     }
   ]
 })

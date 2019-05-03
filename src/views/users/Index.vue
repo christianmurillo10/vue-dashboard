@@ -95,7 +95,7 @@
         </td>
       </template>
       <template v-slot:no-data>
-        <v-span class="justify-center layout px-0">No data found!</v-span>
+        <span class="justify-center layout px-0">No data found!</span>
       </template>
     </v-data-table>
   </div>
@@ -246,10 +246,10 @@ export default {
                   message: "User successfully updated."
                 }
                 this.alertDetails = obj;
+                Object.assign(this.itemList[this.editedIndex], this.editedItem);
               }
             })
             .catch(err => console.log(err));
-          Object.assign(this.itemList[this.editedIndex], this.editedItem);
         } else {
           this.$store
             .dispatch("users/saveData", this.editedItem)
@@ -260,9 +260,9 @@ export default {
                 message: "User successfully created."
               }
               this.alertDetails = obj;
+              this.itemList.push(this.editedItem);
             })
             .catch(err => console.log(err));
-          this.itemList.push(this.editedItem);
         }
         this.close();
       }

@@ -10,7 +10,7 @@
     </v-alert>
     <v-divider></v-divider>
     <v-toolbar color="#EEEEEE" dense>
-      <v-toolbar-title><v-icon class="black--text">person_pin</v-icon> Positions</v-toolbar-title>
+      <v-toolbar-title><v-icon class="black--text">person_pin</v-icon> Roles</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-dialog v-model="dialog" max-width="500px">
         <template v-slot:activator="{ on }">
@@ -39,6 +39,14 @@
                       required
                     ></v-text-field>
                   </v-flex>
+                  <v-flex xs12 sm12 md12>
+                    <v-text-field 
+                      v-model="editedItem.description" 
+                      :rules="validateItem.descriptionRules"
+                      label="Description" 
+                      required
+                    ></v-text-field>
+                  </v-flex>
                 </v-layout>
               </v-container>
             </v-card-text>
@@ -57,6 +65,7 @@
     <v-data-table :headers="headers" :items="itemList" class="elevation-1">
       <template v-slot:items="props">
         <td class="text-xs-left">{{ props.item.name }}</td>
+        <td class="text-xs-left">{{ props.item.description }}</td>
         <td class="justify-center layout px-0">
           <v-icon small class="mr-2" @click="editItem(props.item)">edit</v-icon>
           <v-icon small @click="deleteItem(props.item)">delete</v-icon>
@@ -80,28 +89,35 @@ export default {
     },
     headers: [
       { text: "Name", value: "Name" },
+      { text: "Description", value: "Description" },
       { text: "Actions", align: "center", value: "name", sortable: false }
     ],
     itemList: [],
     editedIndex: -1,
     editedItem: {
-      name: ""
+      name: "",
+      description: ""
     },
     defaultItem: {
-      name: ""
+      name: "",
+      description: ""
     },
     valid: true,
     validateItem: {
       nameRules: [
         v => !!v || 'Name is required',
         v => (v && v.length <= 50) || 'Name must be less than 50 characters'
-      ]
+      ],
+      descriptionRules: [
+        v => !!v || 'Description is required',
+        v => (v && v.length <= 250) || 'Description must be less than 250 characters'
+      ],
     }
   }),
 
   computed: {
     formTitle() {
-      return this.editedIndex === -1 ? "New Position" : "Edit Position";
+      return this.editedIndex === -1 ? "New Role" : "Edit Role";
     },
     formIcon() {
       return this.editedIndex === -1 ? "add_box" : "edit";
@@ -121,7 +137,7 @@ export default {
   methods: {
     initialize() {
       this.$store
-        .dispatch("positions/getData", "")
+        .dispatch("roles/getData", "")
         .then(response => {
           this.itemList = response.data.result;
         })
@@ -140,13 +156,13 @@ export default {
 
       confirm("Are you sure you want to delete this item?") &&
         this.$store
-          .dispatch("positions/deleteData", data)
+          .dispatch("roles/deleteData", data)
           .then(response => {
             this.itemList.splice(index, 1);
             let obj = {
               alert: true,
               type: "success",
-              message: "Position successfully deleted."
+              message: "Role successfully deleted."
             }
             this.alertDetails = obj;
           })
@@ -165,7 +181,7 @@ export default {
       if (this.$refs.form.validate()) {
         if (this.editedIndex > -1) {
           this.$store
-            .dispatch("positions/updateData", this.editedItem)
+            .dispatch("roles/updateData", this.editedItem)
             .then(response => {
               if (response.data.status == 1) {
                 let obj = {
@@ -178,7 +194,7 @@ export default {
                 let obj = {
                   alert: true,
                   type: "success",
-                  message: "Position successfully updated."
+                  message: "Role successfully updated."
                 }
                 this.alertDetails = obj;
                 Object.assign(this.itemList[this.editedIndex], this.editedItem);
@@ -187,12 +203,12 @@ export default {
             .catch(err => console.log(err));
         } else {
           this.$store
-            .dispatch("positions/saveData", this.editedItem)
+            .dispatch("roles/saveData", this.editedItem)
             .then(response => {
               let obj = {
                 alert: true,
                 type: "success",
-                message: "Position successfully created."
+                message: "Role successfully created."
               }
               this.alertDetails = obj;
               this.itemList.push(this.editedItem);

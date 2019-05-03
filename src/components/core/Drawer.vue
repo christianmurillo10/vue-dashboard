@@ -34,7 +34,6 @@
 
         <v-list-tile v-if="responsive">
           <v-text-field
-            v-model="search"
             label="Search..."
             dark
             flat
@@ -42,7 +41,6 @@
             hide-details
             clearable
           ></v-text-field>
-          <!-- <v-text-field class="blue-input search-input" label="Search..." color="blue" /> -->
         </v-list-tile>
       </v-list>
 
@@ -85,6 +83,11 @@ export default {
         to: '/positions',
         icon: 'person_pin',
         text: 'Positions'
+      },
+      {
+        to: '/roles',
+        icon: 'person_pin',
+        text: 'roles'
       }
     ],
     responsive: true
