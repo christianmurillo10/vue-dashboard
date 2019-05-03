@@ -33,7 +33,16 @@
         <v-divider></v-divider>
 
         <v-list-tile v-if="responsive">
-          <v-text-field class="blue-input search-input" label="Search..." color="blue" />
+          <v-text-field
+            v-model="search"
+            label="Search..."
+            dark
+            flat
+            solo-inverted
+            hide-details
+            clearable
+          ></v-text-field>
+          <!-- <v-text-field class="blue-input search-input" label="Search..." color="blue" /> -->
         </v-list-tile>
       </v-list>
 
