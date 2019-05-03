@@ -10,7 +10,7 @@
     </v-alert>
     <v-divider></v-divider>
     <v-toolbar color="#EEEEEE" dense>
-      <v-toolbar-title><v-icon class="black--text">person_pin</v-icon> Roles</v-toolbar-title>
+      <v-toolbar-title><v-icon class="black--text">view_list</v-icon> Roles</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-dialog v-model="dialog" max-width="500px">
         <template v-slot:activator="{ on }">

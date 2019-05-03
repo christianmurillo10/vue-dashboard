@@ -86,8 +86,8 @@ export default {
       },
       {
         to: '/roles',
-        icon: 'person_pin',
-        text: 'roles'
+        icon: 'view_list',
+        text: 'Roles'
       }
     ],
     responsive: true
