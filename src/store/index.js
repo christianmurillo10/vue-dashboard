@@ -8,6 +8,7 @@ import setting from './modules/setting'
 import users from './modules/users'
 import positions from './modules/positions'
 import roles from './modules/roles'
+import permissions from './modules/permissions'
 
 Vue.use(Vuex);
 
@@ -22,6 +23,7 @@ export default new Vuex.Store({
     setting,
     users,
     positions,
-    roles
+    roles,
+    permissions
   }
 });

@@ -156,6 +156,13 @@ export default {
             isParent: 0
           },
           {
+            to: '/permissions',
+            icon: 'view_list',
+            text: 'Permissions',
+            type: 2,
+            isParent: 0
+          },
+          {
             icon: 'settings_applications',
             text: 'Others',
             type: 2,
