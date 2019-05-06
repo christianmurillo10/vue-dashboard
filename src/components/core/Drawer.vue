@@ -44,19 +44,78 @@
         </v-list-tile>
       </v-list>
 
-      <v-list class="pt-0" dense>
+      <v-list
+        class="pt-0" 
+        dense
+        v-for="(mainLink, i) in mainLinks"
+        :key="i"
+      >
         <v-list-tile 
-          v-for="(link, i) in links"
-          :key="i"
-          :to="link.to"
+          v-if="mainLink.isParent === 0"
+          :to="mainLink.to"
         >
           <v-list-tile-action>
-            <v-icon>{{ link.icon }}</v-icon>
+            <v-icon>{{ mainLink.icon }}</v-icon>
           </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title>{{ link.text }}</v-list-tile-title>
-          </v-list-tile-content>
+          <v-list-tile-title>{{ mainLink.text }}</v-list-tile-title>
         </v-list-tile>
+
+        <v-list-group
+          v-else-if="mainLink.isParent === 1"
+          :prepend-icon="mainLink.icon"
+          no-action
+        >
+          <template v-slot:activator>
+            <v-list-tile>
+              <v-list-tile-title>{{ mainLink.text }}</v-list-tile-title>
+            </v-list-tile>
+          </template>
+
+          <v-list
+            v-for="(subLink, i) in mainLink.subLinks"
+            :key="i"
+          >
+            <v-list-tile 
+              v-if="subLink.isParent === 0"
+              :to="subLink.to"
+            >
+              <v-list-tile-action>
+                <v-icon>{{ subLink.icon }}</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-title>{{ subLink.text }}</v-list-tile-title>
+            </v-list-tile>
+
+            <v-list-group
+              v-if="subLink.isParent === 1"
+              no-action
+              sub-group
+            >
+              <template v-slot:activator>
+                <v-list-tile>
+                  <v-list-tile-action>
+                    <v-icon>{{ subLink.icon }}</v-icon>
+                  </v-list-tile-action>
+                  <v-list-tile-title>{{ subLink.text }}</v-list-tile-title>
+                </v-list-tile>
+              </template>
+
+              <v-list
+                v-for="(link, i) in subLink.links"
+                :key="i"
+              >
+                <v-list-tile 
+                  v-if="link.isParent === 0"
+                  :to="link.to"
+                >
+                  <v-list-tile-action>
+                    <v-icon>{{ link.icon }}</v-icon>
+                  </v-list-tile-action>
+                  <v-list-tile-title>{{ link.text }}</v-list-tile-title>
+                </v-list-tile>
+              </v-list>
+            </v-list-group>
+          </v-list>
+        </v-list-group>
       </v-list>
     </v-list>
   </v-navigation-drawer>
@@ -68,27 +127,51 @@ import { mapMutations, mapState } from "vuex";
 export default {
   data: () => ({
     logo: './img/logo.png',
-    links: [
+    mainLinks: [
       {
         to: '/',
         icon: 'dashboard',
-        text: 'Dashboard'
+        text: 'Dashboard',
+        type: 1,
+        isParent: 0
       },
       {
         to: '/users',
         icon: 'person',
-        text: 'Users'
+        text: 'Users',
+        type: 1,
+        isParent: 0
       },
       {
-        to: '/positions',
-        icon: 'person_pin',
-        text: 'Positions'
+        icon: 'device_hub',
+        text: 'RBAC',
+        type: 1,
+        isParent: 1,
+        subLinks: [
+          {
+            to: '/roles',
+            icon: 'view_list',
+            text: 'Roles',
+            type: 2,
+            isParent: 0
+          },
+          {
+            icon: 'settings_applications',
+            text: 'Others',
+            type: 2,
+            isParent: 1,
+            links: [
+              {
+                to: '/positions',
+                icon: 'person_pin',
+                text: 'Positions',
+                type: 2,
+                isParent: 0
+              }
+            ]
+          },
+        ]
       },
-      {
-        to: '/roles',
-        icon: 'view_list',
-        text: 'Roles'
-      }
     ],
     responsive: true
   }),
