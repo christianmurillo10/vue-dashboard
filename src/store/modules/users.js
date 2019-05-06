@@ -59,7 +59,7 @@ const actions = {
             email: payload.email,
             username: payload.username,
             password: payload.password,
-            position_id: payload.position_id
+            role_id: payload.role_id
           }
         };
         
@@ -89,7 +89,7 @@ const actions = {
           data: {
             username: payload.username,
             email: payload.email,
-            position_id: payload.position_id
+            role_id: payload.role_id
           }
         };
 

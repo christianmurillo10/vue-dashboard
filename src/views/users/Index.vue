@@ -60,12 +60,12 @@
                   </v-flex>
                   <v-flex xs12 sm12 md12>
                     <v-select
-                      :items="positionList"
+                      :items="roleList"
                       item-value="id"
                       item-text="name"
-                      v-model="editedItem.position_id"
-                      :rules="validateItem.positionRules"
-                      label="Position"
+                      v-model="editedItem.role_id"
+                      :rules="validateItem.roleRules"
+                      label="Role"
                       required
                     ></v-select>
                   </v-flex>
@@ -88,7 +88,7 @@
       <template v-slot:items="props">
         <td class="text-xs-left">{{ props.item.username }}</td>
         <td class="text-xs-left">{{ props.item.email }}</td>
-        <td class="text-xs-left">{{ props.item.position_name }}</td>
+        <td class="text-xs-left">{{ props.item.role_name }}</td>
         <td class="justify-center layout px-0">
           <v-icon small class="mr-2" @click="editItem(props.item)">edit</v-icon>
           <v-icon small @click="deleteItem(props.item)">delete</v-icon>
@@ -113,7 +113,7 @@ export default {
     headers: [
       { text: "Username", value: "username" },
       { text: "Email", value: "email" },
-      { text: "Position", value: "position_id" },
+      { text: "Role", value: "role_id" },
       { text: "Actions", align: "center", value: "name", sortable: false }
     ],
     itemList: [],
@@ -122,13 +122,13 @@ export default {
       username: "",
       password: "",
       email: "",
-      position_id: null
+      role_id: null
     },
     defaultItem: {
       username: "",
       password: "",
       email: "",
-      position_id: null
+      role_id: null
     },
     valid: true,
     validateItem: {
@@ -144,12 +144,12 @@ export default {
         v => !!v || 'Email is required',
         v => /.+@.+/.test(v) || 'Email must be valid'
       ],
-      positionRules: [
-        v => !!v || 'Position is required'
+      roleRules: [
+        v => !!v || 'Role is required'
       ],
     },
     showPassword: false,
-    positionList: []
+    roleList: []
   }),
 
   computed: {
@@ -180,14 +180,14 @@ export default {
         })
         .catch(err => console.log(err));
       this.$store
-        .dispatch("positions/getData", "")
+        .dispatch("roles/getData", "")
         .then(response => {
           response.data.result.forEach(element => {
             let data = {
               id: element.id,
               name: element.name
             }
-            this.positionList.push(data)
+            this.roleList.push(data)
           });
         })
         .catch(err => console.log(err));
