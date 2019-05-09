@@ -60,7 +60,7 @@
                   </v-flex>
                   <v-flex xs12 sm12 md12>
                     <v-select
-                      :items="roleList"
+                      :items="roleLists"
                       item-value="id"
                       item-text="name"
                       v-model="editedItem.role_id"
@@ -149,7 +149,7 @@ export default {
       ],
     },
     showPassword: false,
-    roleList: []
+    roleLists: []
   }),
 
   computed: {
@@ -187,7 +187,7 @@ export default {
               id: element.id,
               name: element.name
             }
-            this.roleList.push(data)
+            this.roleLists.push(data)
           });
         })
         .catch(err => console.log(err));

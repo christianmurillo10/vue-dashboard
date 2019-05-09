@@ -70,10 +70,13 @@
                     ></v-text-field>
                   </v-flex>
                   <v-flex xs12 sm12 md12>
-                    <v-text-field 
-                      v-model="editedItem.parent_id" 
-                      label="Parent" 
-                    ></v-text-field>
+                    <v-select
+                      :items="parentLists"
+                      item-value="id"
+                      item-text="name"
+                      v-model="editedItem.parent_id"
+                      label="Parent"
+                    ></v-select>
                   </v-flex>
                   <v-flex xs12 sm12 md12>
                     <v-select
@@ -92,9 +95,7 @@
                       item-value="id"
                       item-text="name"
                       v-model="editedItem.is_parent"
-                      :rules="validateItem.isParentRules"
                       label="Is Parent"
-                      required
                     ></v-select>
                   </v-flex>
                 </v-layout>
@@ -119,9 +120,9 @@
         <td class="text-xs-left">{{ props.item.code }}</td>
         <td class="text-xs-left">{{ props.item.route }}</td>
         <td class="text-xs-left">{{ props.item.order }}</td>
-        <td class="text-xs-left">{{ props.item.parent_id }}</td>
-        <td class="text-xs-left">{{ props.item.type }}</td>
-        <td class="text-xs-left">{{ props.item.is_parent }}</td>
+        <td class="text-xs-left">{{ findParentById(props.item.parent_id) }}</td>
+        <td class="text-xs-left">{{ findTypeListById(props.item.type) }}</td>
+        <td class="text-xs-left">{{ findIsParentListById(props.item.is_parent) }}</td>
         <td class="justify-center layout px-0">
           <v-icon small class="mr-2" @click="editItem(props.item)">edit</v-icon>
           <v-icon small @click="deleteItem(props.item)">delete</v-icon>
@@ -148,6 +149,7 @@ export default {
       { text: "Description", value: "Description" },
       { text: "Code", value: "Code" },
       { text: "Route", value: "Route" },
+      { text: "Order", value: "Order" },
       { text: "Parent", value: "Parent" },
       { text: "Type", value: "Type" },
       { text: "Is Parent", value: "Is Parent" },
@@ -160,19 +162,19 @@ export default {
       description: "",
       code: "",
       route: "",
-      order: "",
-      parent_id: "",
-      type: "",
-      is_parent: ""
+      order: null,
+      parent_id: null,
+      type: null,
+      is_parent: null
     },
     defaultItem: {
       name: "",
       description: "",
       code: "",
       route: "",
-      order: "",
-      parent_id: "",
-      type: "",
+      order: null,
+      parent_id: null,
+      type: null,
       is_parent: 1
     },
     valid: true,
@@ -201,11 +203,9 @@ export default {
       ],
       typeRules: [
         v => !!v || 'Type is required'
-      ],
-      isParentRules: [
-        v => !!v || 'Is Parent is required'
-      ],
+      ]
     },
+    parentLists: [],
     typeLists: [
       {id: 1, name: "Main Menu"},
       {id: 2, name: "Sub Menu"},
@@ -242,6 +242,15 @@ export default {
         .dispatch("permissions/getData", "")
         .then(response => {
           this.itemList = response.data.result;
+          this.parentLists.push({ id: null, name: "Select One" });
+
+          response.data.result.forEach(element => {
+            let data = {
+              id: element.id,
+              name: element.name
+            }
+            this.parentLists.push(data);
+          });
         })
         .catch(err => console.log(err));
     },
@@ -310,6 +319,22 @@ export default {
         }
         this.close();
       }
+    },
+
+    findParentById(id) {
+      if (id !== null) {
+        return this.parentLists.find(result => result.id == id).name;
+      } else {
+        return "";
+      }
+    },
+
+    findTypeListById(id) {
+      return this.typeLists.find(result => result.id == id).name;
+    },
+
+    findIsParentListById(id) {
+      return this.isParentLists.find(result => result.id == id).name;
     }
   }
 };
